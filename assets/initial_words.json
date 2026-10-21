@@ -1,0 +1,46 @@
+[
+  {
+    "language": "english",
+    "word": "Resilient",
+    "phonetics": "/rɪˈzɪl.jənt/",
+    "partOfSpeech": "Adjective",
+    "definition": "Able to recoil or spring back into shape after bending, stretching, or being compressed; recovering quickly from difficulties.",
+    "exampleEn": "She remained resilient despite facing multiple setbacks in her career.",
+    "exampleFr": null,
+    "level": 1,
+    "isMastered": 0
+  },
+  {
+    "language": "english",
+    "word": "Pragmatic",
+    "phonetics": "/præɡˈmæt.ɪk/",
+    "partOfSpeech": "Adjective",
+    "definition": "Dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations.",
+    "exampleEn": "We need a pragmatic solution to solve this technical problem.",
+    "exampleFr": null,
+    "level": 1,
+    "isMastered": 0
+  },
+  {
+    "language": "french",
+    "word": "Bienveillance",
+    "phonetics": "byahn-vay-yahnss",
+    "partOfSpeech": "Noun (Feminine)",
+    "definition": "Disposition to act with kindness, empathy, and goodwill towards others.",
+    "exampleEn": "Her kindness touched everyone in the team.",
+    "exampleFr": "Sa bienveillance a touché tout le monde dans l'équipe.",
+    "level": 1,
+    "isMastered": 0
+  },
+  {
+    "language": "french",
+    "word": "Inoubliable",
+    "phonetics": "ee-noo-blee-ahbl",
+    "partOfSpeech": "Adjective",
+    "definition": "Impossible to forget; memorable and leave a lasting impression.",
+    "exampleEn": "It was an unforgettable trip to Paris.",
+    "exampleFr": "C'était un voyage inoubliable à Paris.",
+    "level": 1,
+    "isMastered": 0
+  }
+]
