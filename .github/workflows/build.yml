@@ -21,7 +21,7 @@ jobs:
       - name: Generate Android Platform Files
         run: flutter create . --platforms=android --org=com.vocab.master
         
-      - name: Global Force SDK 36 Across All Plugins
+      - name: Configure SDK & Build Release APK
         run: |
           cat << 'EOF' >> android/build.gradle
           subprojects {
@@ -34,15 +34,11 @@ jobs:
               }
           }
           EOF
+          flutter pub get
+          flutter build apk --release --no-tree-shake-icons
           
-      - name: Get Dependencies
-        run: flutter pub get
-        
-      - name: Build Release APK
-        run: flutter build apk --release --no-tree-shake-icons
-        
-      - uses: actions/upload-artifact@v4
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: VocabMaster-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
-          
+          path: build/**/*.apk
