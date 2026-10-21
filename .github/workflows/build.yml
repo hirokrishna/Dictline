@@ -12,17 +12,23 @@ jobs:
         with:
           channel: 'stable'
           
-      - name: Generate Android Project Platform Files
-        run: flutter create . --platforms=android --org=com.vocab.master
-        
-      - name: Get Dependencies
-        run: flutter pub get
-        
+      - name: Setup Clean Flutter Project
+        run: |
+          mkdir -p ../temp_app
+          flutter create ../temp_app --org=com.vocab.master
+          cp -r lib/ ../temp_app/
+          cp -r assets/ ../temp_app/
+          cp pubspec.yaml ../temp_app/
+          cd ../temp_app
+          flutter pub get
+          
       - name: Build Release APK
-        run: flutter build apk --release --no-tree-shake-icons
-        
+        run: |
+          cd ../temp_app
+          flutter build apk --release --no-tree-shake-icons
+          
       - uses: actions/upload-artifact@v4
         with:
           name: VocabMaster-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: /home/runner/work/Dictline/temp_app/build/app/outputs/flutter-apk/app-release.apk
           
