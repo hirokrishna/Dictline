@@ -21,13 +21,12 @@ jobs:
       - name: Generate Android Platform Files
         run: flutter create . --platforms=android --org=com.vocab.master
         
-      - name: Force Android SDK 34
+      - name: Force Android SDK 36
         run: |
-          # Override compileSdk and targetSdk across all gradle configurations
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdkVersion.*/compileSdkVersion 34/g' {} +
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdk =.*/compileSdk = 34/g' {} +
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdkVersion.*/targetSdkVersion 34/g' {} +
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdk =.*/targetSdk = 34/g' {} +
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdkVersion.*/compileSdkVersion 36/g' {} +
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdk =.*/compileSdk = 36/g' {} +
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdkVersion.*/targetSdkVersion 36/g' {} +
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdk =.*/targetSdk = 36/g' {} +
           
       - name: Get Dependencies
         run: flutter pub get
@@ -39,3 +38,4 @@ jobs:
         with:
           name: VocabMaster-APK
           path: build/app/outputs/flutter-apk/app-release.apk
+          
