@@ -18,13 +18,16 @@ jobs:
         with:
           channel: 'stable'
           
-      - name: Generate Android Project Platform
+      - name: Generate Android Platform Files
         run: flutter create . --platforms=android --org=com.vocab.master
         
-      - name: Bump Android compileSdkVersion to 34
+      - name: Force Android SDK 34
         run: |
-          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 34/g' android/app/build.gradle || true
-          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 34/g' android/app/build.gradle || true
+          # Override compileSdk and targetSdk across all gradle configurations
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdkVersion.*/compileSdkVersion 34/g' {} +
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdk =.*/compileSdk = 34/g' {} +
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdkVersion.*/targetSdkVersion 34/g' {} +
+          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdk =.*/targetSdk = 34/g' {} +
           
       - name: Get Dependencies
         run: flutter pub get
@@ -36,4 +39,3 @@ jobs:
         with:
           name: VocabMaster-APK
           path: build/app/outputs/flutter-apk/app-release.apk
-          
