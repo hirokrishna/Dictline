@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Set up Java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -21,12 +21,19 @@ jobs:
       - name: Generate Android Platform Files
         run: flutter create . --platforms=android --org=com.vocab.master
         
-      - name: Force Android SDK 36
+      - name: Global Force SDK 36 Across All Plugins
         run: |
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdkVersion.*/compileSdkVersion 36/g' {} +
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/compileSdk =.*/compileSdk = 36/g' {} +
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdkVersion.*/targetSdkVersion 36/g' {} +
-          find android/ -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -exec sed -i 's/targetSdk =.*/targetSdk = 36/g' {} +
+          cat << 'EOF' >> android/build.gradle
+          subprojects {
+              afterEvaluate { project ->
+                  if (project.hasProperty('android')) {
+                      project.android {
+                          compileSdkVersion 36
+                      }
+                  }
+              }
+          }
+          EOF
           
       - name: Get Dependencies
         run: flutter pub get
