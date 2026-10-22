@@ -18,27 +18,26 @@ jobs:
         with:
           channel: 'stable'
           
-      - name: Generate Android Groovy Platform Files
-        run: flutter create . --platforms=android --language=groovy --org=com.vocab.master
+      - name: Generate Android Platform Files
+        run: flutter create . --platforms=android --org=com.vocab.master
         
-      - name: Configure SDK 36 Across App & Plugins
+      - name: Force SDK 36 Across All Build Files
         run: |
-          sed -i 's/compileSdkVersion.*/compileSdkVersion 36/g' android/app/build.gradle || true
-          sed -i 's/compileSdk =.*/compileSdk = 36/g' android/app/build.gradle || true
-          sed -i 's/targetSdkVersion.*/targetSdkVersion 36/g' android/app/build.gradle || true
-          sed -i 's/targetSdk =.*/targetSdk = 36/g' android/app/build.gradle || true
-          
-          cat << 'EOF' >> android/build.gradle
-          subprojects {
-              afterEvaluate { project ->
-                  if (project.hasProperty('android')) {
-                      project.android {
-                          compileSdkVersion 36
-                      }
-                  }
-              }
-          }
-          EOF
+          python3 -c "
+          import os, glob
+          for root, dirs, files in os.walk('android'):
+              for file in files:
+                  if file.endswith('.gradle') or file.endswith('.gradle.kts'):
+                      path = os.path.join(root, file)
+                      with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                          content = f.read()
+                      content = content.replace('compileSdkVersion 31', 'compileSdkVersion 36')
+                      content = content.replace('compileSdk = 31', 'compileSdk = 36')
+                      content = content.replace('flutter.compileSdkVersion', '36')
+                      with open(path, 'w', encoding='utf-8') as f:
+                          f.write(content)
+          "
+          echo "subprojects { afterEvaluate { project -> if (project.hasProperty('android')) { project.android { compileSdkVersion 36 } } } }" >> android/build.gradle || true
 
       - name: Install Dependencies
         run: flutter pub get
